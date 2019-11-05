@@ -14,4 +14,8 @@ public class MainController {
     public String hello() {
         return "hello";
     }
+    @GetMapping("/list_user")
+    public String list_user() {
+        return "list_user";
+    }
 }
