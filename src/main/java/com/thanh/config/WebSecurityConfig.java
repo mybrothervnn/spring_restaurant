@@ -2,6 +2,7 @@ package com.thanh.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -38,15 +39,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 				"/home",
                 				"/user",
                 				"/list_user",
-                				"/js/list_user.js")
+                				"/api/update_list_user")                
                 .permitAll() // Cho phép tất cả mọi người truy cập vào 2 địa chỉ này
-                .anyRequest().authenticated() // Tất cả các request khác đều cần phải xác thực mới được truy cập
+                .antMatchers(HttpMethod.POST, "/api/**") // cho phép api
+                .permitAll()
+                //.anyRequest().authenticated() // Tất cả các request khác đều cần phải xác thực mới được truy cập
                 .and()
                 .formLogin() // Cho phép người dùng xác thực bằng form login
                 .defaultSuccessUrl("/hello")
                 .permitAll() // Tất cả đều được truy cập vào địa chỉ này
                 .and()
                 .logout() // Cho phép logout
-                .permitAll();
+                .permitAll()
+                .and().cors()
+                .and().csrf().disable();;
     }
 }

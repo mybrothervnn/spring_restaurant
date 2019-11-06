@@ -3,7 +3,29 @@
 	loadjqGridData();	
 });
  function btnUpdateClick(){
-	 alert("btnUpdate - chức năng cập nhật dữ liệu cho grid");
+	 var ret = confirm("Bạn muốn lưu dữ liệu ?");
+	 if (!ret){
+		 return;
+	 }
+	 var gridData = $('#grid-table').jqGrid('getGridParam','data');
+	 $.ajax({
+		 type:"post",
+		 url:"/api/update_list_user",
+		 data:	JSON.stringify(gridData),
+		 datatype:"json",
+	     contentType: "application/json",
+         cache: false,
+         timeout: 600000,
+		 success: function(msg) {
+				//if(msg == '1'){
+					alert("Luu xong 。");						
+				//}
+				
+			},
+			error: function(res, textstatus, xhr) {				
+				alert("Luu that bai !!!!!。\n" + xhr.statustext);	
+			}
+	 });
  }
 //------------------------------------------------------------------------------
 //jqGrid作成
@@ -11,9 +33,9 @@
 const common_col = ['ID', 'USERNAME',  'PASS'];
 
 const common_col_model = [
-	{index:'id',     name:'id',      width:'110px', align:'center', frozen:true },
-	{index:'username',   name:'username',    width:'250px', align:'left',   frozen:true, editable:true},
-	{index:'password',   name:'password',    width:'150px', align:'left',   frozen:true, editable:true}
+	{index:'id',		name:'id',			width:'110px', align:'center', frozen:true, editable:true, sorttype:'text'},
+	{index:'username',	name:'username',    width:'250px', align:'left',   frozen:true, editable:true, sorttype:'text'},
+	{index:'password',	name:'password',    width:'150px', align:'left',   frozen:true, editable:true, sorttype:'text'}
 ];
 function makejqGrid(){
 	var col			= $.extend(true, [], common_col);	
@@ -26,13 +48,14 @@ function makejqGrid(){
 		height:520,
 		cellEdit: true,
 		cellsubmit: 'clientArray',
-		rowNum:25,
+		rowNum:10,
 		pager:'grid-pager',
-		rowList:[25, 50, 75, 100],
+		rowList:[10, 20, 30, 100],
 		viewrecords:true,
 		cmTemplate: {sortable: false},
-		sortable: false,
-		//width:1200,
+		sortable: true,
+		width:"auto",	
+		height:"100%",
 		shrinkToFit:false,
 	});	
 	$('#grid-table').jqGrid('setFrozenColumns'); 
@@ -42,15 +65,10 @@ function makejqGrid(){
 function loadjqGridData(){
 	$.ajax({
 		type: 'get',
-		url:  '/user', // http://localhost:8080/user
+		url:  '/api/user', // http://localhost:8080/api/user
 		dataType: 'json',
 		timeout: 20000,		
 		cache: false,
-//		data: {'store_cd' : vStore_cd,
-//				'ctg_cd'  : vCtg_cd,
-//				'supp_cd' : vSupp_cd,
-//				},
-
 		/**
 		 * 表示前
 		 */
@@ -87,3 +105,15 @@ function loadjqGridData(){
 		}
 	});
 }
+var test_data=[
+				{"id":1,"username":"thanh","password":"thanh"},
+				{"id":2,"username":"test","password":"test"},
+				{"id":3,"username":"mybrothervnn","password":"mybrothervnn"},
+				{"id":4,"username":"4","password":"4"},
+				{"id":5,"username":"5","password":"5"},
+				{"id":6,"username":"6","password":"6"},
+				{"id":7,"username":"7","password":"7"},
+				{"id":8,"username":"8","password":"8"},
+				{"id":9,"username":"9","password":"9"},
+				{"id":10,"username":"10","password":"10"},
+				{"id":11,"username":"11","password":"11"}];
