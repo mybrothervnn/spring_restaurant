@@ -18,4 +18,8 @@ public class MainController {
     public String list_user() {
         return "list_user";
     }
+    @GetMapping("/list_food")
+    public String list_food() {
+        return "list_food";
+    }
 }

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.thanh.entity.Food;
 import com.thanh.entity.User;
+import com.thanh.jpa.FoodRepository;
 import com.thanh.jpa.UserRepository;
 
 @RestController
@@ -21,16 +23,30 @@ public class ResfulApiController {
 	@Autowired
 	UserRepository repo;
 	
+	@Autowired
+	FoodRepository repoFood;
+	
 	@GetMapping("/user")
 	public List<User> getAll(){
 		List<User> list =  repo.findAll();
 		//System.out.println(list.toString());
 		return list;
 	}
-	@PostMapping(value = "/update_list_user") //,produces=MediaType.APPLICATION_JSON_VALUE,consumes=MediaType.APPLICATION_JSON_VALUE)
-	public List<User> updateEntity(@RequestBody List<User> list){		
-		repo.deleteAll();	
+	@GetMapping("/food")
+	public List<Food> findAllFood(){
+		List<Food> list =  repoFood.findAll();
+		return list;
+	}
+	
+	//POST
+	@PostMapping(value = "/update_list_user")
+	public List<User> updateEntity(@RequestBody List<User> list){
 		repo.saveAll(list);
+		return list;
+	}
+	@PostMapping(value = "/update_list_food")
+	public List<Food> updateEntityFood(@RequestBody List<Food> list){			
+		repoFood.saveAll(list);
 		return list;
 	}
 

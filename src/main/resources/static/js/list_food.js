@@ -16,9 +16,10 @@
 	 }
 	 var gridData = $('#grid-table').jqGrid('getGridParam','data');
 	 gridData.forEach(editIdFunction);
+	 
 	 $.ajax({
 		 type:"post",
-		 url:"/api/update_list_user",
+		 url:"/api/update_list_food",
 		 data:	JSON.stringify(gridData),
 		 datatype:"json",
 	     contentType: "application/json",
@@ -31,19 +32,21 @@
 				
 			},
 		 error: function(res, textstatus, xhr) {				
-			alert("Luu that bai !!!!!。\n" + xhr.statustext);	
+				alert("Luu that bai !!!!!。\n" + xhr.statustext);	
 		 }
 	 });
  }
 //------------------------------------------------------------------------------
 //jqGrid作成
 //------------------------------------------------------------------------------
-const common_col = ['ID', 'USERNAME',  'PASS'];
+const common_col = ['NAME',  'PRICE', 'PICTURE', 'DETAIL'];
 
 const common_col_model = [
-	{index:'id',		name:'id',			width:'110px', align:'center', frozen:true, editable:false, sorttype:'text'},
-	{index:'username',	name:'username',    width:'250px', align:'left',   frozen:true, editable:true, sorttype:'text'},
-	{index:'password',	name:'password',    width:'150px', align:'left',   frozen:true, editable:true, sorttype:'text'}
+	//{index:'id',	name:'id',			width:'110px', align:'center', frozen:true, editable:false},
+	{index:'name',	name:'name',    width:'250px', align:'left',   frozen:true, editable:true, sorttype:'text'},
+	{index:'price',	name:'price',    width:'150px', align:'left',   frozen:true, editable:true, sorttype:'text'},
+	{index:'picture',	name:'picture',    width:'150px', align:'left',   frozen:true, editable:true, sorttype:'text'},
+	{index:'detail',	name:'detail',    width:'150px', align:'left',   frozen:true, editable:true, sorttype:'text'}
 ];
 function makejqGrid(){
 	var col			= $.extend(true, [], common_col);	
@@ -65,6 +68,7 @@ function makejqGrid(){
 		width:"auto",	
 		height:"100%",
 		shrinkToFit:false,
+		idPrefix:"",
 	});	
 	$('#grid-table').jqGrid('setFrozenColumns'); 
 	$('#grid-table').jqGrid('navGrid',"#grid-pager",{edit:true,add:true,del:true});
@@ -73,7 +77,7 @@ function makejqGrid(){
 function loadjqGridData(){
 	$.ajax({
 		type: 'get',
-		url:  '/api/user', // http://localhost:8080/api/user
+		url:  '/api/food', // http://localhost:8080/api/food
 		dataType: 'json',
 		timeout: 20000,		
 		cache: false,
@@ -113,15 +117,3 @@ function loadjqGridData(){
 		}
 	});
 }
-var test_data=[
-				{"id":1,"username":"thanh","password":"thanh"},
-				{"id":2,"username":"test","password":"test"},
-				{"id":3,"username":"mybrothervnn","password":"mybrothervnn"},
-				{"id":4,"username":"4","password":"4"},
-				{"id":5,"username":"5","password":"5"},
-				{"id":6,"username":"6","password":"6"},
-				{"id":7,"username":"7","password":"7"},
-				{"id":8,"username":"8","password":"8"},
-				{"id":9,"username":"9","password":"9"},
-				{"id":10,"username":"10","password":"10"},
-				{"id":11,"username":"11","password":"11"}];
