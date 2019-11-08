@@ -16,6 +16,7 @@ import com.thanh.entity.Food;
 import com.thanh.entity.User;
 import com.thanh.jpa.FoodRepository;
 import com.thanh.jpa.UserRepository;
+import com.thanh.service.FoodService;
 
 @RestController
 @RequestMapping("/api")
@@ -24,7 +25,7 @@ public class ResfulApiController {
 	UserRepository repo;
 	
 	@Autowired
-	FoodRepository repoFood;
+	FoodService foodService;
 	
 	@GetMapping("/user")
 	public List<User> getAll(){
@@ -34,7 +35,7 @@ public class ResfulApiController {
 	}
 	@GetMapping("/food")
 	public List<Food> findAllFood(){
-		List<Food> list =  repoFood.findAll();
+		List<Food> list =  foodService.findAll();
 		return list;
 	}
 	
@@ -46,7 +47,7 @@ public class ResfulApiController {
 	}
 	@PostMapping(value = "/update_list_food")
 	public List<Food> updateEntityFood(@RequestBody List<Food> list){			
-		repoFood.saveAll(list);
+		foodService.saveAll(list);
 		return list;
 	}
 

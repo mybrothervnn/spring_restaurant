@@ -7,9 +7,6 @@ import org.json.simple.parser.ParseException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.thanh.util.GoogleTranslator;
-import com.thanh.util.GoogleTranslator.LANGUAGE;
-
 @SpringBootApplication
 public class RestaurantApplication {
 
